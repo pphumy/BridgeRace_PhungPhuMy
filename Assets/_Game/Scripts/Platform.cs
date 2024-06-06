@@ -56,7 +56,6 @@ public class Platform : MonoBehaviour
             }
     }
  
-
     //Get list Brick of ColorType
     public List<Vector3> GetBrickPoint(ColorType colorType)
     {

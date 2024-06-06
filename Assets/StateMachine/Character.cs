@@ -42,7 +42,6 @@ public class Character : GameUnit
     protected bool CanMove()
     {
         RaycastHit hit;
-        Debug.DrawRay(TF.position + new Vector3(0, 1, 1), Vector3.down, Color.red,5f);
         if (Physics.Raycast(TF.position + new Vector3(0, 1, 1), Vector3.down,out hit, 5f, bridgeLayer))
         {
             Stair stair = Cache.GetStair(hit.collider);
@@ -135,20 +134,6 @@ public class Character : GameUnit
         CollideWithBrick(other);
         
     }
-
-    protected void OnTriggerExit(Collider other)
-    {
-        CollideWithDoor(other);
-    }
-
-    protected void CollideWithDoor(Collider other)
-    {
-        if (other.CompareTag(Constants.TAG_DOOR))
-        {
-            other.isTrigger = false;
-        }
-    }
-
     protected void CollideWithBrick(Collider other)
     {
         if (other.CompareTag(Constants.TAG_BRICK))
