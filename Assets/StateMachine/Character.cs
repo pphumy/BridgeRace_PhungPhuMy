@@ -10,6 +10,7 @@ public class Character : GameUnit
     [SerializeField] protected Renderer skinCharacter;
     [SerializeField] protected Brick brickPrefab;
     [SerializeField] protected Transform brickHolder;
+    [SerializeField] protected LayerMask bridgeLayer;
 
 
     public ColorType colorType;
@@ -38,7 +39,40 @@ public class Character : GameUnit
         }
     }
 
-
+    protected bool CanMove()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(TF.position + new Vector3(0, 1, 1), Vector3.down, Color.red,5f);
+        if (Physics.Raycast(TF.position + new Vector3(0, 1, 1), Vector3.down,out hit, 5f, bridgeLayer))
+        {
+            Stair stair = Cache.GetStair(hit.collider);
+            if(TF.transform.forward.z > 0)
+            {
+                if(this.colorType == stair.colorType)
+                {
+                    return true;
+                }
+                else
+                {
+                    if(brickList.Count > 0)
+                    {
+                        RemoveBrick();
+                        stair.ChangeColor(colorType);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return true;
+    }
     public void ChangeState(IState<Character> state)
     {
         if (currentState != null)
@@ -73,7 +107,7 @@ public class Character : GameUnit
     {
         Brick brick = Instantiate(brickPrefab, brickHolder);
         brick.ChangeColor(this.colorType);
-        brick.transform.localPosition = new Vector3(0, brickList.Count * 0.33f, 0);
+        brick.transform.localPosition = new Vector3(0, brickList.Count * 0.6f, 0);
         brickList.Add(brick);
     }
 
@@ -86,6 +120,7 @@ public class Character : GameUnit
             Destroy(brick.gameObject);
         }
     }
+
     protected void ClearBrick()
     {
         foreach (Brick brick in brickList)
@@ -94,9 +129,24 @@ public class Character : GameUnit
         }
         brickList.Clear();
     }
+
     protected void OnTriggerEnter(Collider other)
     {
         CollideWithBrick(other);
+        
+    }
+
+    protected void OnTriggerExit(Collider other)
+    {
+        CollideWithDoor(other);
+    }
+
+    protected void CollideWithDoor(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_DOOR))
+        {
+            other.isTrigger = false;
+        }
     }
 
     protected void CollideWithBrick(Collider other)

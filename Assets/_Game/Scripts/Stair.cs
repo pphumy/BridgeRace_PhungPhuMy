@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stair : MonoBehaviour
+public class Stair : GameUnit
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private ColorSO colors;
+    [SerializeField] private Renderer rd;
 
-    // Update is called once per frame
-    void Update()
+    public ColorType colorType;
+
+    public void ChangeColor(ColorType colorType)
     {
-        
+        rd.enabled = true;
+        this.colorType = colorType;
+        rd.material = colors.GetMat(colorType);
     }
 }

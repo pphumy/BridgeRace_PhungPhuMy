@@ -7,7 +7,7 @@ public class Platform : MonoBehaviour
     public int rows = 8;
     public int columns = 5;
     public Transform brickSpawnPos;
-    public float spacing = 10.0f;
+    public float spacing = 5.0f;
     public Brick brickPrefab;
 
 
@@ -34,6 +34,7 @@ public class Platform : MonoBehaviour
                 Vector3 position = brickSpawnPos.position + new Vector3(i * spacing, 0, k * spacing);
                 //Brick brick = SimplePool.Spawn<Brick>(brickPrefab, position, Quaternion.identity);
                 //List position to spawn brick
+                //Instantiate(brickPrefab, position, Quaternion.identity);
                 emptyPos.Add(position);
                 Debug.Log("spawn pos");
             }
@@ -55,10 +56,6 @@ public class Platform : MonoBehaviour
             }
     }
  
-    public void ResPawnBrick()
-    {
-
-    }
 
     //Get list Brick of ColorType
     public List<Vector3> GetBrickPoint(ColorType colorType)

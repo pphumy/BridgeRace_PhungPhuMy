@@ -26,7 +26,7 @@ public class PlayerManager : Character
     private void Move()
     {
         Vector3 movement = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        if(movement.sqrMagnitude > 0.1f)
+        if(CanMove() && movement.sqrMagnitude > 0.1f)
         {
             transform.Translate(moveSpeed * Time.deltaTime * movement,Space.World);
 
@@ -48,11 +48,16 @@ public class PlayerManager : Character
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag(Constants.TAG_BRICK))
-        {
+        CollideWithDoor(other);
+    }
 
+    private void CollideWithDoor(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_DOOR))
+        {
+            other.isTrigger = false;
         }
     }
     private void OnInit()

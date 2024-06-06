@@ -29,6 +29,7 @@ public class Brick : GameUnit
     {
         yield return new WaitForSeconds(4);
         this.ChangeColor(deActiveBricks[Random.Range(0, deActiveBricks.Count)].colorType);
+        deActiveBricks.Remove(this);
         rd.enabled = true;
         col.enabled = true;
         platform.bricks.Add(this);
@@ -41,7 +42,18 @@ public class Brick : GameUnit
 
     public void DeActiveBrick()
     {
+        rd.enabled = false;
+        col.enabled = false;
+        deActiveBricks.Add(this);
         StartCoroutine(nameof(RespawnBrick));
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_CHARACTER))
+        {
+            Character character = Cache.GetCharacter(other);
+            this.platform = character.platform;
+        }
+    }
 }
