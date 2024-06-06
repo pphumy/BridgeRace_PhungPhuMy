@@ -8,6 +8,8 @@ TagManager:
   - Brick
   - Character
   - Stair
+  - Door
+  - WinPos
   layers:
   - Default
   - TransparentFX
@@ -19,9 +21,9 @@ TagManager:
   - 
   - BridgeLayer
   - Platform
-  - 
-  - 
-  - 
+  - Player
+  - Bot
+  - Door
   - 
   - 
   - 

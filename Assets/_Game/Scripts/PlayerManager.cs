@@ -7,10 +7,13 @@ public class PlayerManager : Character
     [SerializeField] private VariableJoystick joystick;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
-    private Vector3 m_moveVector;
-    private Vector3 dir;
+    [SerializeField] Transform WinPos;
+    
     public Vector3 initPoint;
 
+    private Vector3 dir;
+    private Vector3 movement;
+    private bool Won = false;
 
     private void Awake()
     {
@@ -25,8 +28,8 @@ public class PlayerManager : Character
 
     private void Move()
     {
-        Vector3 movement = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        if(CanMove() && movement.sqrMagnitude > 0.1f)
+        movement = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+        if(CanMove() && movement.sqrMagnitude > 0.1f && !Won)
         {
             transform.Translate(moveSpeed * Time.deltaTime * movement,Space.World);
 
@@ -34,13 +37,21 @@ public class PlayerManager : Character
             ChangeAnim(Constants.ANIM_RUN);
 
         }
+        else if( Won)
+        {
+            joystick.enabled = false;
+            TF.position = WinPos.position+Vector3.up*20;
+            TF.rotation = Quaternion.LookRotation(Vector3.back);
+            this.ClearBrick();
+            ChangeAnim(Constants.ANIM_WIN);
+        }
         else
         {
             ChangeAnim(Constants.ANIM_IDLE);
         }
         
         Vector2 look = new Vector2(joystick.Horizontal, joystick.Vertical);
-        if (look.sqrMagnitude >= 0.1f) // avoid small movements
+        if (look.sqrMagnitude >= 0.1f && !Won) // avoid small movements
         {
             float targetAngle = Mathf.Atan2(look.x, look.y) * Mathf.Rad2Deg;
             float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * rotationSpeed);
@@ -51,6 +62,7 @@ public class PlayerManager : Character
     private void OnTriggerExit(Collider other)
     {
         CollideWithDoor(other);
+        CollideWithWinPos(other);
     }
 
     private void CollideWithDoor(Collider other)
@@ -60,6 +72,16 @@ public class PlayerManager : Character
             other.isTrigger = false;
         }
     }
+
+    private void CollideWithWinPos(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_WIN))
+        {
+            Won = true;
+            ChangeAnim(Constants.ANIM_WIN);
+        }
+    }
+
     private void OnInit()
     {
         initPoint = GameManager.Ins.startPoint;
