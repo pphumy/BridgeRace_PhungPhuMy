@@ -9,13 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: ColorDataSO
-  m_EditorClassIdentifier: Assembly-CSharp::ColorSO/ColorDataSO
+  m_Script: {fileID: 11500000, guid: da348b577011bec488eb62429452f5f2, type: 3}
+  m_Name: ColorSO
+  m_EditorClassIdentifier: 
   mats:
+  - {fileID: 2100000, guid: ebd9c7eb2e9a32549973e35694e532b4, type: 2}
   - {fileID: 2100000, guid: da327f3a50ec6bd489620c1182bf5886, type: 2}
   - {fileID: 2100000, guid: 8387926d62376a243adea95b5831734a, type: 2}
   - {fileID: 2100000, guid: 3e4ceb2f9b46c0a4d82b3d49a4c21a66, type: 2}
   - {fileID: 2100000, guid: 4fab026386d58b1469fb1322cc8199cc, type: 2}
   - {fileID: 2100000, guid: 0bdd81b168153aa4dbb31058aaa80e40, type: 2}
   - {fileID: 2100000, guid: 1a7e9f80b9da1a64c82fa6fbcbdeeeb4, type: 2}
+  selectedColors: 03000000010000000500000004000000
