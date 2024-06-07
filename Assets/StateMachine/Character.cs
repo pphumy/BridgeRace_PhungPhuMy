@@ -16,7 +16,6 @@ public class Character : GameUnit
     public ColorType colorType;
     public Platform platform;
     public ColorSO colorData;
-    public Transform root;
     public LayerMask platformLayer;
 
     protected string currentAnimName;
@@ -25,21 +24,21 @@ public class Character : GameUnit
 
     List<Brick> brickList = new List<Brick>();
 
-    private void Start()    
-    {
-        ChangeState(new IdleState());
-    }
+    //private void Start()    
+    //{
+    //    ChangeState(new IdleState());
+    //}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (currentState != null)
-        {
-            currentState.OnExecute(this);
-        }
-    }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    if (currentState != null)
+    //    {
+    //        currentState.OnExecute(this);
+    //    }
+    //}
 
-    protected bool CanMove()
+    public bool CanMove()
     {
         RaycastHit hit;
         if (Physics.Raycast(TF.position + new Vector3(0, 1, 1), Vector3.down,out hit, 5f, bridgeLayer))
@@ -86,7 +85,7 @@ public class Character : GameUnit
             currentState.OnEnter(this);
         }
     }
-    protected void ChangeAnim(string animName)
+    public void ChangeAnim(string animName)
     {
         if(currentAnimName != animName)
         {
@@ -100,6 +99,11 @@ public class Character : GameUnit
     {
         this.colorType = colorType;
         skinCharacter.material = colorData.GetMat(colorType);
+    }
+
+    public int CountBrick()
+    {
+        return brickList.Count;
     }
 
     protected void AddBrick()
@@ -141,11 +145,10 @@ public class Character : GameUnit
             Brick brick = Cache.GetBrick(other);
             if(this.colorType == brick.colorType) {
                 brick.DeActiveBrick();
-                AddBrick();
-                Debug.Log("Add");
+                platform.deActiveBricks.Add(brick);
+                this.AddBrick();
+                platform.bricks.Remove(brick);
             }
-            
-
         }
     }
 }

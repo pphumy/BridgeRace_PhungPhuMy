@@ -6,17 +6,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum GameState { MainMenu, Gameplay, Pause, Victory}
+
 public class GameManager : Singleton<GameManager>
 {
     //[SerializeField] UserData userData;
     //[SerializeField] CSVData csv;
-    //private static GameState gameState = GameState.MainMenu;
-    public List<Transform> SpawnPos;
-    [SerializeField] Bot botPrefab;
-    public Vector3 startPoint;
-    public ColorSO dataColor;
-
-    public List<ColorType> listSelectedColors = new List<ColorType>();
+    public GameState gameState;
+    
+    
 
     // Start is called before the first frame update
     protected void Awake()
@@ -40,44 +38,25 @@ public class GameManager : Singleton<GameManager>
 
         //UIManager.Ins.OpenUI<MianMenu>();
 
-        Shuffle(SpawnPos);
-        listSelectedColors = dataColor.GetListColor();
-        startPoint = SpawnPos[0].position;
-        SpawnBots();
+        
     }
-    public void SpawnBots()
+
+    private void Start()
     {
-        //player.initPoint = SpawnPos[0].position;
-        for(var i =1 ; i< SpawnPos.Count; i++)
-        {
-            Bot bot = SimplePool.Spawn<Bot>(botPrefab, SpawnPos[i].position, Quaternion.identity);
-            bot.SetColor(listSelectedColors[i]);
-        }
+        ChangeState(GameState.Gameplay);
     }
 
-    public void Shuffle<T>(IList<T> list)
+    
+
+    public void ChangeState(GameState state)
     {
-        System.Random rng = new System.Random();
-        int n = list.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
-        }
+        gameState = state;
     }
 
-    //public static void ChangeState(GameState state)
-    //{
-    //    gameState = state;
-    //}
-
-    //public static bool IsState(GameState state)
-    //{
-    //    return gameState == state;
-    //}
+    public bool IsState(GameState state)
+    {
+       return gameState == state;
+    }
     
 
     

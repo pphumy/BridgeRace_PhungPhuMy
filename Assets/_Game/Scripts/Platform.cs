@@ -13,6 +13,7 @@ public class Platform : MonoBehaviour
 
     public List<Brick> bricks = new List<Brick>();
     private List<Vector3> emptyPos = new List<Vector3>();
+    public List<Brick> deActiveBricks = new List<Brick>();
 
     void Start()
     {
@@ -36,7 +37,6 @@ public class Platform : MonoBehaviour
                 //List position to spawn brick
                 //Instantiate(brickPrefab, position, Quaternion.identity);
                 emptyPos.Add(position);
-                Debug.Log("spawn pos");
             }
         }
     }
@@ -45,15 +45,30 @@ public class Platform : MonoBehaviour
     private void SpawnBrick(ColorType color)
     {
             // Spawn bricks equally for 4 characters
-            for (int i = 0; i < (rows*columns) / 4; i++)
-            {
-            Debug.Log("paint");
-            Vector3 position = emptyPos[Random.Range(0, emptyPos.Count)];
-            Brick brick = SimplePool.Spawn<Brick>(brickPrefab, position, Quaternion.identity);
-            brick.ChangeColor(color);
-            bricks.Add(brick);
-            emptyPos.Remove(position);
-            }
+         
+           for (int i = 0; i < (rows * columns) / 4; i++)
+                {
+                if (GetBrickPoint(color).Count > (rows * columns) / 4)
+                {
+                    break;
+                }
+                else
+                {
+                    if (emptyPos.Count == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Vector3 position = emptyPos[Random.Range(0, emptyPos.Count)];
+                        Brick brick = SimplePool.Spawn<Brick>(brickPrefab, position, Quaternion.identity);
+                        emptyPos.Remove(position);
+                        brick.ChangeColor(color);
+                        bricks.Add(brick);
+                    }
+                }
+           }
+            
     }
  
     //Get list Brick of ColorType
@@ -62,7 +77,7 @@ public class Platform : MonoBehaviour
         List<Vector3> list = new List<Vector3>();
         for (int i = 0; i < bricks.Count; i++)
         {
-            if (bricks[i].colorType == colorType)
+            if (bricks[i].colorType == colorType && bricks[i].rd.enabled)
             {
                 list.Add(bricks[i].TF.position);
             }
@@ -74,7 +89,6 @@ public class Platform : MonoBehaviour
     {
         if (other.gameObject.CompareTag(Constants.TAG_CHARACTER))
         {
-            Debug.Log("collision");
             SpawnBrick(other.gameObject.GetComponent<Character>().colorType);
             other.gameObject.GetComponent<Character>().platform = this;
         }

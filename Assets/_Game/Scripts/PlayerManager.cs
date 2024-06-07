@@ -84,8 +84,8 @@ public class PlayerManager : Character
 
     private void OnInit()
     {
-        initPoint = GameManager.Ins.startPoint;
-        this.colorType = GameManager.Ins.listSelectedColors[0];
+        initPoint = LevelManager.Ins.startPoint;
+        this.colorType = LevelManager.Ins.listSelectedColors[0];
         this.SetColor(this.colorType);
         transform.position = initPoint;
     }

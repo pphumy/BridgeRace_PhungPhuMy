@@ -11,10 +11,10 @@ public class Brick : GameUnit
    [SerializeField] private ColorSO colors;
    [SerializeField] Collider col;
    [SerializeField] GameObject brickPrefab;
-   [SerializeField] private Renderer rd;
-    private Platform platform;
+   public Renderer rd;
+   private Platform platform;
 
-    public List<Brick> deActiveBricks = new List<Brick>();
+    //public List<Brick> deActiveBricks = new List<Brick>();
 
    
 
@@ -27,24 +27,28 @@ public class Brick : GameUnit
 
     private IEnumerator RespawnBrick()
     {
-        yield return new WaitForSeconds(4);
-        this.ChangeColor(deActiveBricks[Random.Range(0, deActiveBricks.Count)].colorType);
-        deActiveBricks.Remove(this);
-        rd.enabled = true;
-        col.enabled = true;
-        platform.bricks.Add(this);
+        yield return new WaitForSeconds(6);
+        ActiveBrick();
     }
+
     private void Awake()
     {
         colorType = ColorType.None;
         //platform = this.GetComponentInParent<Platform>();
     }
 
+    public void ActiveBrick()
+    {
+        this.ChangeColor(platform.deActiveBricks[Random.Range(0, platform.deActiveBricks.Count)].colorType);
+        platform.deActiveBricks.Remove(this);
+        rd.enabled = true;
+        col.enabled = true;
+        platform.bricks.Add(this);
+    }
     public void DeActiveBrick()
     {
         rd.enabled = false;
         col.enabled = false;
-        deActiveBricks.Add(this);
         StartCoroutine(nameof(RespawnBrick));
     }
 

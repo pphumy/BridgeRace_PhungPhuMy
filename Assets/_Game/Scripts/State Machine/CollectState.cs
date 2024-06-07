@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : IState<Bot>
+public class CollectState : IState<Bot>
 {
+    int targetBrick;
+
     public void OnEnter(Bot t)
     {
-        t.ChangeAnim(Constants.ANIM_IDLE);
+        targetBrick = t.NOBrickToTake();
     }
-
-  
 
     public void OnExecute(Bot t)
     {
-        t.ChangeState(new GetBrickState());
+        
     }
-
- 
 
     public void OnExit(Bot t)
     {
