@@ -11,22 +11,30 @@ public class ReachFinishPointState : IState<Bot>
 
     public void OnExecute(Bot t)
     {
-        if(t.CountBrick() == 0)
+        if (!t.won)
         {
-            t.ChangeState(new GetBrickState());
-        }
-        else 
-        {
-            if (t.CanMove())
-            {
-                t.MoveToFinishPoint();
-            }
-            else
+            if (t.CountBrick() == 0)
             {
                 t.ChangeState(new GetBrickState());
             }
-            
+            else
+            {
+                if (t.CanMove())
+                {
+                    t.MoveToFinishPoint();
+                }
+                else
+                {
+                    t.ChangeState(new GetBrickState());
+                }
+
+            }
         }
+        else
+        {
+            return;
+        }
+        
     }
 
     public void OnExit(Bot t)

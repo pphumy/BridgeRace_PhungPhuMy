@@ -27,7 +27,7 @@ public class Brick : GameUnit
 
     private IEnumerator RespawnBrick()
     {
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(4);
         ActiveBrick();
     }
 
@@ -39,12 +39,17 @@ public class Brick : GameUnit
 
     public void ActiveBrick()
     {
-        this.ChangeColor(platform.deActiveBricks[Random.Range(0, platform.deActiveBricks.Count)].colorType);
-        platform.deActiveBricks.Remove(this);
-        rd.enabled = true;
-        col.enabled = true;
-        platform.bricks.Add(this);
+        if(platform.GetBrickPoint(colorType).Count < platform.totalBrick / 4) {
+            int index = Random.Range(0, platform.deActiveBricks.Count);
+            this.ChangeColor(platform.deActiveBricks[index]);
+            platform.deActiveBricks.RemoveAt(index);
+            rd.enabled = true;
+            col.enabled = true;
+            platform.bricks.Add(this);
+        }
+        
     }
+
     public void DeActiveBrick()
     {
         rd.enabled = false;

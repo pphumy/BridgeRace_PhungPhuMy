@@ -5,24 +5,25 @@ using UnityEngine;
 
 public class Character : GameUnit
 {
-    private IState<Character> currentState;
+    
     [SerializeField] protected Animator anim;
     [SerializeField] protected Renderer skinCharacter;
     [SerializeField] protected Brick brickPrefab;
     [SerializeField] protected Transform brickHolder;
     [SerializeField] protected LayerMask bridgeLayer;
-
-
+    
+    
+    public Transform winPos;
     public ColorType colorType;
     public Platform platform;
     public ColorSO colorData;
+    public bool won = false;
     public LayerMask platformLayer;
 
     protected string currentAnimName;
 
-
-
-    List<Brick> brickList = new List<Brick>();
+    private IState<Character> currentState;
+    private List<Brick> brickList = new List<Brick>();
 
     //private void Start()    
     //{
@@ -41,7 +42,7 @@ public class Character : GameUnit
     public bool CanMove()
     {
         RaycastHit hit;
-        if (Physics.Raycast(TF.position + new Vector3(0, 1, 1), Vector3.down,out hit, 5f, bridgeLayer))
+        if (Physics.Raycast(TF.position + new Vector3(0, 1, 1.3f), Vector3.down,out hit, 5f, bridgeLayer))
         {
             Stair stair = Cache.GetStair(hit.collider);
             if(TF.transform.forward.z > 0)
@@ -145,10 +146,19 @@ public class Character : GameUnit
             Brick brick = Cache.GetBrick(other);
             if(this.colorType == brick.colorType) {
                 brick.DeActiveBrick();
-                platform.deActiveBricks.Add(brick);
+                platform.deActiveBricks.Add(brick.colorType);
                 this.AddBrick();
                 platform.bricks.Remove(brick);
             }
+        }
+    }
+    protected virtual void CollideWithWinPos(Collider other)
+    {
+        if (other.CompareTag(Constants.TAG_WIN))
+        {
+            ClearBrick();
+            won = true;
+            ChangeAnim(Constants.ANIM_WIN);
         }
     }
 }

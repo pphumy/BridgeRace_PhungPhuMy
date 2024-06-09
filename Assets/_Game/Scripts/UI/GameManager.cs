@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum GameState { MainMenu, Gameplay, Pause, Victory}
+public enum GameState { MainMenu, Pause, Gameplay, Victory, Fail}
 
 public class GameManager : Singleton<GameManager>
 {

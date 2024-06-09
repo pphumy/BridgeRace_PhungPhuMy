@@ -6,6 +6,7 @@ public class Platform : MonoBehaviour
 {
     public int rows = 8;
     public int columns = 5;
+    public int totalBrick;
     public Transform brickSpawnPos;
     public float spacing = 5.0f;
     public Brick brickPrefab;
@@ -13,19 +14,15 @@ public class Platform : MonoBehaviour
 
     public List<Brick> bricks = new List<Brick>();
     private List<Vector3> emptyPos = new List<Vector3>();
-    public List<Brick> deActiveBricks = new List<Brick>();
+    public List<ColorType> deActiveBricks = new List<ColorType>();
 
     void Start()
     {
         SpawnListPosBrick();
+        totalBrick = rows * columns;
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void SpawnListPosBrick()
     {
         for(int i=0; i<rows; i++)
@@ -46,19 +43,16 @@ public class Platform : MonoBehaviour
     {
             // Spawn bricks equally for 4 characters
          
-           for (int i = 0; i < (rows * columns) / 4; i++)
+           for (int i = 0; i < (totalBrick / 4); i++)
+           {
+                if (GetBrickPoint(color).Count == (totalBrick / 4) )
                 {
-                if (GetBrickPoint(color).Count > (rows * columns) / 4)
-                {
-                    break;
+                Debug.Log("true");
+                    return;
                 }
                 else
                 {
-                    if (emptyPos.Count == 0)
-                    {
-                        break;
-                    }
-                    else
+                    if (emptyPos.Count != 0)
                     {
                         Vector3 position = emptyPos[Random.Range(0, emptyPos.Count)];
                         Brick brick = SimplePool.Spawn<Brick>(brickPrefab, position, Quaternion.identity);

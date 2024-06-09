@@ -4,38 +4,42 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    Level currentLevel;
-    public List<Level> levels = new List<Level>();
-    public List<Transform> SpawnPos;
     [SerializeField] Bot botPrefab;
+
+    public List<Level> levels = new List<Level>();
+    public List<ColorType> listSelectedColors = new List<ColorType>();
+    public List<Transform> spawnPos;
+    public int levelIndex;
     public Vector3 startPoint;
     public Transform finishPos;
+    public Transform winPos;
     public ColorSO dataColor;
+    
 
-    public List<ColorType> listSelectedColors = new List<ColorType>();
+    private Level currentLevel;
 
     private void Awake()
     {
-        LoadLevel();
-        finishPos = currentLevel.finishPoint;
-        SpawnPos = currentLevel.StartPoint;
-        Shuffle(SpawnPos);
-        listSelectedColors = dataColor.GetListColor();
-        startPoint = SpawnPos[0].position;
-        SpawnBots();
+        LoadLevel(levelIndex);
+        OnInit();
     }
+
+    private void Start()
+    {
+        UIManager.Ins.OpenUI<MainMenu>();
+        
+    }
+
     public void SpawnBots()
     {
-        
         //player.initPoint = SpawnPos[0].position;
-        for (var i = 1; i < SpawnPos.Count; i++)
+        for (var i = 1; i < spawnPos.Count; i++)
         {
-            Bot bot = SimplePool.Spawn<Bot>(botPrefab, SpawnPos[i].position, Quaternion.identity);
+            Bot bot = SimplePool.Spawn<Bot>(botPrefab, spawnPos[i].position, Quaternion.identity);
             bot.SetColor(listSelectedColors[i]);
             bot.ChangeState(new GetBrickState());
         }
     }
-
 
     public void Shuffle<T>(IList<T> list)
     {
@@ -51,13 +55,53 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    public void LoadLevel()
+
+
+    public void OnRetry()
     {
-        if (currentLevel != null) Destroy(currentLevel.gameObject);
+        LoadLevel(levelIndex);
+        OnInit();
+    }
 
-        currentLevel = Instantiate(levels[0]);
+    public void OnStartGame()
+    {
+        SpawnBots();
+    }
 
-        
+    public void OnNextLevel()
+    {
+        levelIndex++;
+        PlayerPrefs.SetInt("Level", levelIndex);
+        LoadLevel(levelIndex);
+        OnInit();
+    }
 
+    public void LoadLevel(int level)
+    {
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel.gameObject);
+        }
+
+        if (level < levels.Count)
+        {
+            currentLevel = Instantiate(levels[level]);
+        }
+        else if (level == levels.Count)
+        {
+            levelIndex = 0;
+            PlayerPrefs.SetInt("Level", 0);
+        }
+    }
+
+    private void OnInit()
+    {
+        levelIndex = PlayerPrefs.GetInt("Level");
+        finishPos = currentLevel.finishPoint;
+        spawnPos = currentLevel.startPoint;
+        winPos = currentLevel.winPos;
+        Shuffle(spawnPos);
+        listSelectedColors = dataColor.GetListColor();
+        startPoint = spawnPos[0].position;
     }
 }

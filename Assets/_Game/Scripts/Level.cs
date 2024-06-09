@@ -5,7 +5,7 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     public Transform finishPoint;
-    public Transform WinPos;
+    public Transform winPos;
 
-    public List<Transform> StartPoint;
+    public List<Transform> startPoint;
 }

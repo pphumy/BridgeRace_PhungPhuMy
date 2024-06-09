@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : Character
+public class Player : Character
 {
     [SerializeField] private VariableJoystick joystick;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
-    [SerializeField] Transform WinPos;
+    
     
     public Vector3 initPoint;
 
     private Vector3 dir;
     private Vector3 movement;
-    private bool Won = false;
+
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class PlayerManager : Character
     private void Move()
     {
         movement = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        if(CanMove() && movement.sqrMagnitude > 0.1f && !Won)
+        if(CanMove() && movement.sqrMagnitude > 0.1f && !won)
         {
             transform.Translate(moveSpeed * Time.deltaTime * movement,Space.World);
 
@@ -37,13 +37,14 @@ public class PlayerManager : Character
             ChangeAnim(Constants.ANIM_RUN);
 
         }
-        else if( Won)
+        else if( won)
         {
             joystick.enabled = false;
-            TF.position = WinPos.position+Vector3.up*20;
+            TF.position = winPos.position+Vector3.up*22+Vector3.back*4;
             TF.rotation = Quaternion.LookRotation(Vector3.back);
             this.ClearBrick();
             ChangeAnim(Constants.ANIM_WIN);
+            GameManager.Ins.ChangeState(GameState.Victory);
         }
         else
         {
@@ -51,7 +52,7 @@ public class PlayerManager : Character
         }
         
         Vector2 look = new Vector2(joystick.Horizontal, joystick.Vertical);
-        if (look.sqrMagnitude >= 0.1f && !Won) // avoid small movements
+        if (look.sqrMagnitude >= 0.1f && !won) // avoid small movements
         {
             float targetAngle = Mathf.Atan2(look.x, look.y) * Mathf.Rad2Deg;
             float angle = Mathf.LerpAngle(transform.eulerAngles.y, targetAngle, Time.deltaTime * rotationSpeed);
@@ -73,20 +74,14 @@ public class PlayerManager : Character
         }
     }
 
-    private void CollideWithWinPos(Collider other)
-    {
-        if (other.CompareTag(Constants.TAG_WIN))
-        {
-            Won = true;
-            ChangeAnim(Constants.ANIM_WIN);
-        }
-    }
+    
 
     private void OnInit()
     {
         initPoint = LevelManager.Ins.startPoint;
         this.colorType = LevelManager.Ins.listSelectedColors[0];
         this.SetColor(this.colorType);
+        winPos = LevelManager.Ins.winPos;
         transform.position = initPoint;
     }
 

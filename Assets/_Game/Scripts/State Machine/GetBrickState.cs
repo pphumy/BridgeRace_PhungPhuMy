@@ -13,15 +13,22 @@ public class GetBrickState : IState<Bot>
 
     public void OnExecute(Bot t)
     {
-
-        if (t.CountBrick() > t.NOBrickToTake())
+        if (!t.won)
         {
-            t.ChangeState(new ReachFinishPointState());
+            if (t.CountBrick() > t.NOBrickToTake())
+            {
+                t.ChangeState(new ReachFinishPointState());
+            }
+            else
+            {
+                t.MoveToTarget();
+            }
         }
         else
         {
-            t.MoveToTarget();
+            return;
         }
+        
     }
 
     public void OnExit(Bot t)

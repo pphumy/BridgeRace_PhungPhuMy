@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MianMenu : UICanvas
+public class MainMenu : UICanvas
 {
     public void PlayButton()
     {
-        UIManager.Ins.OpenUI<GamePlay>();
+        LevelManager.Ins.OnStartGame();
+        UIManager.Ins.OpenUI<Gameplay>();
         Close(0);
     }
 }
