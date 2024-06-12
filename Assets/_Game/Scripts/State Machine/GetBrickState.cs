@@ -9,6 +9,7 @@ public class GetBrickState : IState<Bot>
     public void OnEnter(Bot t)
     {
         t.ChangeAnim(Constants.ANIM_RUN);
+
     }
 
     public void OnExecute(Bot t)

@@ -42,20 +42,14 @@ public class Bot : Character
         else
         {
             GetBrickPos();
-        }
-
-        for (int i =0; i < listTarget.Count; i++)
-        {
-            target = listTarget[i];
-            this.agent.SetDestination(target);
+            for (int i = 0; i < listTarget.Count; i++)
+            {
+                target = listTarget[i];
+                this.agent.SetDestination(target);
+            }
         }
     }
 
-    public  void MoveToTargetDelay(float delayTime)
-    {
-        Invoke(nameof(MoveToTarget), delayTime);
-        
-    }
 
     public void MoveToFinishPoint()
     {
@@ -92,7 +86,6 @@ public class Bot : Character
             this.agent.isStopped = true;
             this.agent.enabled = false;
             ChangeAnim(Constants.ANIM_WIN);
-            Debug.Log("true1");
             TF.rotation = Quaternion.LookRotation(Vector3.back);
             GameManager.Ins.ChangeState(GameState.Fail);
             UIManager.Ins.OpenUI<Lose>();

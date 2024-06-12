@@ -177,7 +177,6 @@ public static class SimplePool
 
         if (prefab == null)
         {
-            Debug.LogError(parent.name + " : IS EMPTY!!!");
             return;
         }
 

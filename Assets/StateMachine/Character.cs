@@ -113,7 +113,8 @@ public class Character : GameUnit
         {
             Brick brick = brickList[brickList.Count - 1];
             brickList.Remove(brick);
-            Destroy(brick.gameObject);
+            SimplePool.Despawn(brick);
+            //Destroy(brick.gameObject);
         }
     }
 
@@ -121,7 +122,8 @@ public class Character : GameUnit
     {
         foreach (Brick brick in brickList)
         {
-            Destroy(brick.gameObject);
+            SimplePool.Despawn(brick);
+            //Destroy(brick.gameObject);
         }
         brickList.Clear();
     }

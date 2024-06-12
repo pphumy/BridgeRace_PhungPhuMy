@@ -118,10 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63273b1dd27f9e4e9ccfde40f7bf178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolType: 0
+  poolType: 1
   colorType: 0
   colors: {fileID: 11400000, guid: e02c451dd7857e64d8a5a16f96c042b5, type: 2}
   col: {fileID: 2528645117906188704}
   brickPrefab: {fileID: 1404530621367135608}
   rd: {fileID: 3673102968642223346}
-  deActiveBricks: []

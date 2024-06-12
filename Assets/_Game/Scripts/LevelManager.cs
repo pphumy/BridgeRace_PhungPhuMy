@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +12,7 @@ public class LevelManager : Singleton<LevelManager>
 
     public List<Level> levels = new List<Level>();
     public List<ColorType> listSelectedColors = new List<ColorType>();
+    public List<ColorType> selectedColors = new List<ColorType>();
     public List<Transform> spawnPos;
     public int levelIndex;
     public Vector3 startPoint;
@@ -106,7 +109,6 @@ public class LevelManager : Singleton<LevelManager>
 
     public void OnNextLevel()
     {    
-        Debug.Log("run");
         GameManager.Ins.ChangeState(GameState.Gameplay);
         levelIndex++;
         PlayerPrefs.SetInt("Level", levelIndex);
@@ -115,6 +117,28 @@ public class LevelManager : Singleton<LevelManager>
         SetBotPos();
         SetBotColor();
         UIManager.Ins.OpenUI<Gameplay>();
+    }
+
+    public List<ColorType> GetListColor()
+    {
+        List<ColorType> colors = ((ColorType[])Enum.GetValues(typeof(ColorType))).ToList();
+        selectedColors.Clear();
+        // Remove the None element
+        colors.Remove(ColorType.None);
+        List<int> indices = new List<int>();
+        for (int i = 0; i < colors.Count; i++)
+        {
+            indices.Add(i);
+        }
+
+        // Randomly select 4 indices
+        for (int i = 0; i < 4; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, indices.Count);
+            selectedColors.Add(colors[indices[randomIndex]]);
+            indices.RemoveAt(randomIndex);
+        }
+        return selectedColors;
     }
 
     public void LoadLevel(int level)
@@ -141,12 +165,11 @@ public class LevelManager : Singleton<LevelManager>
     {
         levelIndex = PlayerPrefs.GetInt("Level");
         LoadLevel(levelIndex);
-        Debug.Log(levelIndex);
         finishPos = currentLevel.finishPoint;
         spawnPos = currentLevel.startPoint;
         startPoint = spawnPos[0].position;
         Shuffle(spawnPos);
-        listSelectedColors = dataColor.GetListColor();
+        listSelectedColors = GetListColor();
         winPos = currentLevel.winPos;
     }
 }
