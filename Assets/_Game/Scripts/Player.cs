@@ -90,6 +90,7 @@ public class Player : Character
             joystickUi.SetActive(false);
             UIManager.Ins.CloseUI<Gameplay>();
             UIManager.Ins.OpenUI<Win>();
+            CameraManager.Ins.MoveToStepUp();
         }
     }
 
