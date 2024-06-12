@@ -14,7 +14,7 @@ public class Settings : UICanvas
     public override void CloseDirectly()
     {
         Time.timeScale = 1;
-        base.Close(0.5f);
+        base.CloseDirectly();
     }
     public void ContinueButton()
     {
@@ -27,5 +27,6 @@ public class Settings : UICanvas
     {
         LevelManager.Ins.OnRetry();
         CloseDirectly();
+        UIManager.Ins.OpenUI<Gameplay>();
     }
 }

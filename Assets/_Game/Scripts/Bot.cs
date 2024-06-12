@@ -19,9 +19,11 @@ public class Bot : Character
         if (currentState != null && GameManager.Ins.IsState(GameState.Gameplay))
         {
             currentState.OnExecute(this);
+            agent.enabled = true;
         }
         else if (GameManager.Ins.gameState == GameState.Victory)
         {
+            agent.enabled = false;
             return;
         }
 
@@ -29,16 +31,30 @@ public class Bot : Character
    
     public void GetBrickPos()
     {
-        listTarget = this.platform.GetBrickPoint(this.colorType);
+        listTarget = platform.GetBrickPoint(colorType);
     }
-    public void MoveToTarget()
+    public virtual void MoveToTarget()
     {
-        GetBrickPos();
-        for(int i =0; i < listTarget.Count; i++)
+        if(platform == null)
+        {
+            return;
+        }
+        else
+        {
+            GetBrickPos();
+        }
+
+        for (int i =0; i < listTarget.Count; i++)
         {
             target = listTarget[i];
             this.agent.SetDestination(target);
         }
+    }
+
+    public  void MoveToTargetDelay(float delayTime)
+    {
+        Invoke(nameof(MoveToTarget), delayTime);
+        
     }
 
     public void MoveToFinishPoint()
@@ -81,6 +97,7 @@ public class Bot : Character
             Debug.Log("true1");
             TF.rotation = Quaternion.LookRotation(Vector3.back);
             GameManager.Ins.ChangeState(GameState.Fail);
+            UIManager.Ins.OpenUI<Lose>();
         }
     }
     private void OnCollisionEnter(Collision other)
@@ -94,5 +111,10 @@ public class Bot : Character
     private void OnTriggerExit(Collider other)
     {
         CollideWithWinPos(other);
+    }
+
+    public void OnInit()
+    {
+        ClearBrick();
     }
 }

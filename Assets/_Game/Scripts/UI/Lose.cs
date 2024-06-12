@@ -8,7 +8,7 @@ public class Lose : UICanvas
     public void RetryButton()
     {
         LevelManager.Ins.OnRetry();
-        Close(0);
+        CloseDirectly();
     }
 
 }

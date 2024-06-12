@@ -50,11 +50,23 @@ MonoBehaviour:
   poolType: 0
   anim: {fileID: 328945382495252163}
   skinCharacter: {fileID: 0}
+  brickPrefab: {fileID: 0}
+  brickHolder: {fileID: 0}
+  bridgeLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  winPos: {fileID: 0}
   colorType: 0
+  platform: {fileID: 0}
+  colorData: {fileID: 11400000, guid: e02c451dd7857e64d8a5a16f96c042b5, type: 2}
+  won: 0
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 512
   joystick: {fileID: 0}
   moveSpeed: 10
-  rb: {fileID: 8640678525224896731}
   rotationSpeed: 15
+  initPoint: {x: 0, y: 0, z: 0}
 --- !u!136 &8928038992056377750
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -8,6 +8,10 @@ public class CameraManager : Singleton<CameraManager>
     public Vector3 offset;
     public Vector3 pos;
 
+    private void Awake()
+    {
+        target.position = LevelManager.Ins.player.transform.position;
+    }
     void Update()
     {
         if (GameManager.Ins.IsState(GameState.Gameplay))

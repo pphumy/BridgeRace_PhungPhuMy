@@ -31,13 +31,6 @@ public class Character : GameUnit
     //}
 
     //// Update is called once per frame
-    //void Update()
-    //{
-    //    if (currentState != null)
-    //    {
-    //        currentState.OnExecute(this);
-    //    }
-    //}
 
     public bool CanMove()
     {
@@ -125,7 +118,7 @@ public class Character : GameUnit
         }
     }
 
-    protected void ClearBrick()
+    public void ClearBrick()
     {
         foreach (Brick brick in brickList)
         {
@@ -134,7 +127,7 @@ public class Character : GameUnit
         brickList.Clear();
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         CollideWithBrick(other);
         
@@ -161,4 +154,5 @@ public class Character : GameUnit
             ChangeAnim(Constants.ANIM_WIN);
         }
     }
+    
 }

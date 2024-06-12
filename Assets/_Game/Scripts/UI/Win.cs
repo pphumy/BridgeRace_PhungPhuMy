@@ -7,12 +7,12 @@ public class Win : UICanvas
     public void RetryButton()
     {
         LevelManager.Ins.OnRetry();
-        Close(0);
+        CloseDirectly();
     }
 
     public void NextButton()
     {
         LevelManager.Ins.OnNextLevel();
-        Close(0);
+        CloseDirectly();
     }
 }

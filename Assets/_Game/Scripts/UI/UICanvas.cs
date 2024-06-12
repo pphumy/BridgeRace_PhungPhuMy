@@ -57,6 +57,7 @@ public class UICanvas : MonoBehaviour
     //mo canvas
     public virtual void Open()
     {
+        Debug.Log("true");
         gameObject.SetActive(true);
     }
 
@@ -78,6 +79,16 @@ public class UICanvas : MonoBehaviour
     public virtual void Close(float delayTime)
     {
         Invoke(nameof(CloseDirectly), delayTime);
+    }
+
+    
+
+    public IEnumerator OpenUIAfterDelayCoroutine()
+    {
+        Debug.Log("START");
+        yield return new WaitForSeconds(2f);
+        Debug.Log("END");
+        Open();
     }
 
 }

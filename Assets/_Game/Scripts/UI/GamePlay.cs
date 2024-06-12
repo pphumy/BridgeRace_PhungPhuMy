@@ -10,9 +10,11 @@ public class Gameplay : UICanvas
 
     private void OnEnable()
     {
-        int level = ++LevelManager.Ins.levelIndex;
+        Debug.Log("open");
+        int level = LevelManager.Ins.levelIndex+1;
         levelUi.SetText("Level " + level);
     }
+
     public void SettingButton()
     {
         

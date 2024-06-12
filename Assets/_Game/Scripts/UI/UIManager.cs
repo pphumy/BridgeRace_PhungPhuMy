@@ -53,6 +53,7 @@ public class UIManager : Singleton<UIManager>
         return canvas as T;
     }
 
+
     //close UI directly
     //dong UI canvas ngay lap tuc
     public void CloseUI<T>() where T : UICanvas

@@ -10,6 +10,7 @@ public class Platform : MonoBehaviour
     public Transform brickSpawnPos;
     public float spacing = 5.0f;
     public Brick brickPrefab;
+    public Transform brickSpawner;
 
 
     public List<Brick> bricks = new List<Brick>();
@@ -47,7 +48,6 @@ public class Platform : MonoBehaviour
            {
                 if (GetBrickPoint(color).Count == (totalBrick / 4) )
                 {
-                Debug.Log("true");
                     return;
                 }
                 else
@@ -56,6 +56,7 @@ public class Platform : MonoBehaviour
                     {
                         Vector3 position = emptyPos[Random.Range(0, emptyPos.Count)];
                         Brick brick = SimplePool.Spawn<Brick>(brickPrefab, position, Quaternion.identity);
+                        brick.transform.SetParent(brickSpawner);
                         emptyPos.Remove(position);
                         brick.ChangeColor(color);
                         bricks.Add(brick);
@@ -86,5 +87,14 @@ public class Platform : MonoBehaviour
             SpawnBrick(other.gameObject.GetComponent<Character>().colorType);
             other.gameObject.GetComponent<Character>().platform = this;
         }
+    }
+    public void ClearAll()
+    {
+        //foreach(var i in bricks)
+        //{
+        //    SimplePool.Despawn(i);
+        //}
+        //bricks.Clear();
+        //emptyPos.Clear();
     }
 }

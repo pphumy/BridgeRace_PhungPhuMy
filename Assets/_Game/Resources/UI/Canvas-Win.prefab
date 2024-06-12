@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4690094246861320672}
+      - m_Target: {fileID: 2613486360819448139}
         m_TargetAssemblyTypeName: Win, Assembly-CSharp
         m_MethodName: NextButton
         m_Mode: 1
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.23921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 2259803071679977375}
   - component: {fileID: 1956995354776017675}
   - component: {fileID: 7517779117645584508}
-  - component: {fileID: 4690094246861320672}
+  - component: {fileID: 2613486360819448139}
   m_Layer: 5
   m_Name: Canvas-Win
   m_TagString: Untagged
@@ -587,7 +587,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4690094246861320672
+--- !u!114 &2613486360819448139
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

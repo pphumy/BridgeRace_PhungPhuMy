@@ -20,6 +20,6 @@ public class IdleState : IState<Bot>
 
     public void OnExit(Bot t)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

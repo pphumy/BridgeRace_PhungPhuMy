@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Player : Character
 {
-    [SerializeField] private VariableJoystick joystick;
+    private Player player;
+    public VariableJoystick joystick;
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] GameObject joystickUi;
     [SerializeField] private float rotationSpeed = 5f;
     
-    
     public Vector3 initPoint;
-
-    private Vector3 dir;
     private Vector3 movement;
 
 
@@ -22,6 +21,14 @@ public class Player : Character
 
     void Update()
     {
+        if (GameManager.Ins.gameState == GameState.Gameplay)
+        {
+            won = false;
+        }
+        else
+        {
+            won = true;
+        }
         Move();
 
     }
@@ -29,7 +36,7 @@ public class Player : Character
     private void Move()
     {
         movement = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
-        if(CanMove() && movement.sqrMagnitude > 0.1f && !won)
+        if(CanMove() && movement.sqrMagnitude > 0.1f && GameManager.Ins.gameState == GameState.Gameplay )
         {
             transform.Translate(moveSpeed * Time.deltaTime * movement,Space.World);
 
@@ -37,14 +44,10 @@ public class Player : Character
             ChangeAnim(Constants.ANIM_RUN);
 
         }
-        else if( won)
+        else if(GameManager.Ins.gameState == GameState.Victory)
         {
-            joystick.enabled = false;
-            TF.position = winPos.position+Vector3.up*22+Vector3.back*4;
-            TF.rotation = Quaternion.LookRotation(Vector3.back);
-            this.ClearBrick();
+            
             ChangeAnim(Constants.ANIM_WIN);
-            GameManager.Ins.ChangeState(GameState.Victory);
         }
         else
         {
@@ -63,7 +66,7 @@ public class Player : Character
     private void OnTriggerExit(Collider other)
     {
         CollideWithDoor(other);
-        CollideWithWinPos(other);
+        
     }
 
     private void CollideWithDoor(Collider other)
@@ -74,11 +77,27 @@ public class Player : Character
         }
     }
 
-    
-
-    private void OnInit()
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.CollideWithBrick(other);
+        CollideWithWinPos(other);
+    }
+    protected override void CollideWithWinPos(Collider other)
+    {
+        base.CollideWithWinPos(other);
+        if (other.CompareTag(Constants.TAG_WIN)){
+            GameManager.Ins.ChangeState(GameState.Victory);
+            joystickUi.SetActive(false);
+            UIManager.Ins.CloseUI<Gameplay>();
+            UIManager.Ins.OpenUI<Win>();
+        }
+    }
+
+    public void OnInit()
+    {
+        movement = Vector3.zero;
         initPoint = LevelManager.Ins.startPoint;
+        ChangeAnim(Constants.ANIM_IDLE);
         this.colorType = LevelManager.Ins.listSelectedColors[0];
         this.SetColor(this.colorType);
         winPos = LevelManager.Ins.winPos;
