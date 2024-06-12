@@ -87,13 +87,11 @@ public class Bot : Character
     {
         if (other.CompareTag(Constants.TAG_WIN))
         {
-            winPos = LevelManager.Ins.winPos;
             ClearBrick();
             won = true;
             this.agent.isStopped = true;
             this.agent.enabled = false;
             ChangeAnim(Constants.ANIM_WIN);
-            TF.position = winPos.position;
             Debug.Log("true1");
             TF.rotation = Quaternion.LookRotation(Vector3.back);
             GameManager.Ins.ChangeState(GameState.Fail);

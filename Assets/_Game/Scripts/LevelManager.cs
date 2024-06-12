@@ -40,8 +40,7 @@ public class LevelManager : Singleton<LevelManager>
         //player.initPoint = SpawnPos[0].position;
         for (int i = 1; i < spawnPos.Count; i++)
         {
-            Bot bot = SimplePool.Spawn<Bot>(botPrefab, spawnPos[i].position, Quaternion.identity);
-            bot.SetColor(listSelectedColors[i]);
+            Bot bot = SimplePool.Spawn<Bot>(botPrefab, spawnPos[i].position, Quaternion.identity);  
             bot.ChangeState(new IdleState());
             bots.Add(bot);
         }
@@ -55,6 +54,13 @@ public class LevelManager : Singleton<LevelManager>
             bots[i-1].TF.position = spawnPos[i].position;
             bots[i - 1].ClearBrick();
             bots[i - 1].ChangeState(new IdleState());
+        }
+    }
+    public void SetBotColor()
+    {
+        for(int i=0; i<bots.Count; i++)
+        {
+            bots[i].SetColor(listSelectedColors[i+1]);
         }
     }
 
@@ -95,20 +101,20 @@ public class LevelManager : Singleton<LevelManager>
     public void OnStartGame()
     {
         SpawnBots();
+        SetBotColor();
     }
 
     public void OnNextLevel()
-    {
-        UIManager.Ins.OpenUI<Gameplay>();
+    {    
         Debug.Log("run");
         GameManager.Ins.ChangeState(GameState.Gameplay);
         levelIndex++;
         PlayerPrefs.SetInt("Level", levelIndex);
-        player.OnInit();
         OnInit();
+        player.OnInit();
         SetBotPos();
-        
-        
+        SetBotColor();
+        UIManager.Ins.OpenUI<Gameplay>();
     }
 
     public void LoadLevel(int level)

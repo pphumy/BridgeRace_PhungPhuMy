@@ -13,7 +13,6 @@ public class Character : GameUnit
     [SerializeField] protected LayerMask bridgeLayer;
     
     
-    public Transform winPos;
     public ColorType colorType;
     public Platform platform;
     public ColorSO colorData;

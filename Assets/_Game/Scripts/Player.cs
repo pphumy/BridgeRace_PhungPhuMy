@@ -101,7 +101,6 @@ public class Player : Character
         ChangeAnim(Constants.ANIM_IDLE);
         this.colorType = LevelManager.Ins.listSelectedColors[0];
         this.SetColor(this.colorType);
-        winPos = LevelManager.Ins.winPos;
         transform.position = initPoint;
     }
 

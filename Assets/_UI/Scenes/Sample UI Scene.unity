@@ -156,8 +156,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 4651095052424064038, guid: 65806f908cfda2847b663dc4a7cb0767, type: 3}
   levels:
   - {fileID: 6987020151824697554, guid: be230996581ead34383d66e3ae6cc1bc, type: 3}
-  - {fileID: 6987020151824697554, guid: 5661df17b94591f48b44c379ff2f3c45, type: 3}
-  - {fileID: 6987020151824697554, guid: 21adebcdeb3a75c4bbf48bd5817e5d42, type: 3}
+  - {fileID: 6987020151824697554, guid: 4e42f73f09e87a34c883862ae5e78c51, type: 3}
+  - {fileID: 6987020151824697554, guid: 6c283de6b330cab4a99613678bed56ae, type: 3}
   listSelectedColors: 
   spawnPos: []
   levelIndex: 0
@@ -339,6 +339,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &716781726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3881087803815115468, guid: ec536a7718376554185e4a856d5ae230, type: 3}
+  m_PrefabInstance: {fileID: 1976727645}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &764388053
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1516261142747697107}
   offset: {x: -0.1, y: 20, z: -6.97}
-  pos: {x: -1.3, y: 27.2, z: 180.7}
+  pos: {x: -0.86, y: 23.7, z: 177.2}
 --- !u!1 &1065593777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1361,7 @@ MonoBehaviour:
     m_Bits: 512
   joystick: {fileID: 1192997061}
   moveSpeed: 10
+  joystickUi: {fileID: 716781726}
   rotationSpeed: 15
   initPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &3636918639014200034
