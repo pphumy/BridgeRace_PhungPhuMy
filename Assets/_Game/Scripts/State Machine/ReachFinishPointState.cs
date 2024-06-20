@@ -27,7 +27,6 @@ public class ReachFinishPointState : IState<Bot>
                 {
                     t.ChangeState(new GetBrickState());
                 }
-
             }
         }
         else

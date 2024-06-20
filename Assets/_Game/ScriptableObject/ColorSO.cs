@@ -8,8 +8,6 @@ using UnityEngine;
 public class ColorSO : ScriptableObject
 {
     [SerializeField] Material[] mats;
-    
-
     public Material GetMat(ColorType type)
     {
         return mats[(int)type];

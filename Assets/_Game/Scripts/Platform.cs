@@ -21,7 +21,6 @@ public class Platform : MonoBehaviour
     {
         SpawnListPosBrick();
         totalBrick = rows * columns;
-
     }
 
     private void SpawnListPosBrick()
@@ -62,8 +61,7 @@ public class Platform : MonoBehaviour
                         bricks.Add(brick);
                     }
                 }
-           }
-            
+           }         
     }
  
     //Get list Brick of ColorType
@@ -77,7 +75,6 @@ public class Platform : MonoBehaviour
                 list.Add(bricks[i].TF.position);
             }
         }
-
         return list;
     }
     private void OnCollisionEnter(Collision other)
@@ -88,6 +85,7 @@ public class Platform : MonoBehaviour
             other.gameObject.GetComponent<Character>().platform = this;
         }
     }
+
     public void ClearAll()
     {
         //foreach(var i in bricks)
