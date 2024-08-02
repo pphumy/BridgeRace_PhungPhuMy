@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class Character : GameUnit
 {
-    
+
     [SerializeField] protected Animator anim;
     [SerializeField] protected Renderer skinCharacter;
     [SerializeField] protected Brick brickPrefab;
     [SerializeField] protected Transform brickHolder;
     [SerializeField] protected LayerMask bridgeLayer;
-    
-    
+
+
     public ColorType colorType;
     public Platform platform;
     public ColorSO colorData;
@@ -34,18 +34,18 @@ public class Character : GameUnit
     public bool CanMove()
     {
         RaycastHit hit;
-        if (Physics.Raycast(TF.position + new Vector3(0, 1, 1.3f), Vector3.down,out hit, 5f, bridgeLayer))
+        if (Physics.Raycast(TF.position + new Vector3(0, 1, 1.3f), Vector3.down, out hit, 5f, bridgeLayer))
         {
             Stair stair = Cache.GetStair(hit.collider);
-            if(TF.transform.forward.z > 0)
+            if (TF.transform.forward.z > 0)
             {
-                if(this.colorType == stair.colorType)
+                if (this.colorType == stair.colorType)
                 {
                     return true;
                 }
                 else
                 {
-                    if(brickList.Count > 0)
+                    if (brickList.Count > 0)
                     {
                         RemoveBrick();
                         stair.ChangeColor(colorType);
@@ -80,7 +80,7 @@ public class Character : GameUnit
     }
     public void ChangeAnim(string animName)
     {
-        if(currentAnimName != animName)
+        if (currentAnimName != animName)
         {
             anim.ResetTrigger(animName);
             currentAnimName = animName;
@@ -131,14 +131,15 @@ public class Character : GameUnit
     protected virtual void OnTriggerEnter(Collider other)
     {
         CollideWithBrick(other);
-        
+
     }
     protected void CollideWithBrick(Collider other)
     {
         if (other.CompareTag(Constants.TAG_BRICK))
         {
             Brick brick = Cache.GetBrick(other);
-            if(this.colorType == brick.colorType) {
+            if (this.colorType == brick.colorType)
+            {
                 brick.DeActiveBrick();
                 platform.deActiveBricks.Add(brick.colorType);
                 this.AddBrick();
@@ -155,5 +156,5 @@ public class Character : GameUnit
             ChangeAnim(Constants.ANIM_WIN);
         }
     }
-    
+
 }
